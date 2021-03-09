@@ -1,27 +1,32 @@
+from world import WORLD
+from robot import ROBOT
 import pybullet as p
-import time
 import pybullet_data
+import time
 
-#Connect to Physics cloent
-physicsClient = p.connect(p.GUI)
 
-#Set up path for generating a floor
-p.setAdditionalSearchPath(pybullet_data.getDataPath())
+class SIMULATION:
+    def __init__(self):
+        #Connect to Physics cloent
+        self.physicsClient = p.connect(p.GUI)
 
-#Add Gravity to simulation
-p.setGravity(0,0,-9.8)
+        #Set up path for generating a floor
+        p.setAdditionalSearchPath(pybullet_data.getDataPath())
 
-#load a floor
-planeId = p.loadURDF("plane.urdf")
-robotId = p.loadURDF("body.urdf")
+        self.world = WORLD()
+        self.robot = ROBOT()
 
-#load box.sdf
-p.loadSDF("world.sdf")
+        #Add Gravity to simulation
+        p.setGravity(0, 0, -9.8)
 
-#For loop for simulation
-for i in range(1000):
-    p.stepSimulation()
-    time.sleep(1/60)
 
-#Disconnect
-p.disconnect()
+    def RUN(self):
+        #For loop for simulation
+        for i in range(1000):
+            p.stepSimulation()
+            self.robot.Sense(i)
+            self.robot.Act(i)
+            time.sleep(1/60)
+
+    def __del__(self):
+        p.disconnect()
