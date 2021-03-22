@@ -1,5 +1,5 @@
 import pyrosim.pyrosim as pyrosim
-
+import random
 #pyrosim.Start_SDF("boxes.sdf")
 length = 1
 width = 1
@@ -48,6 +48,11 @@ def Generate_Brain():
     pyrosim.Send_Synapse( sourceNeuronName = 1 , targetNeuronName = 3 , weight = -1.0 )
     pyrosim.Send_Synapse( sourceNeuronName = 2 , targetNeuronName = 4 , weight = .10 )
     pyrosim.Send_Synapse( sourceNeuronName = 0 , targetNeuronName = 4 , weight = .10 )
+
+    for i in range(3,5):
+        for j in range(3):
+            pyrosim.Send_Synapse( sourceNeuronName = j , targetNeuronName = i , weight = random.randrange(-1,1) )
+
 
     pyrosim.End()
 
