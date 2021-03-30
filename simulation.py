@@ -6,10 +6,13 @@ import time
 
 
 class SIMULATION:
-    def __init__(self):
+    def __init__(self,arg):
         #Connect to Physics cloent
-        self.physicsClient = p.connect(p.GUI)
 
+        if arg == "DIRECT":
+            self.physicsClient = p.connect(p.DIRECT)
+        elif arg == "GUI":
+            self.physicsClient = p.connect(p.GUI)
         #Set up path for generating a floor
         p.setAdditionalSearchPath(pybullet_data.getDataPath())
 
@@ -27,7 +30,10 @@ class SIMULATION:
             self.robot.Sense(i)
             self.robot.Think()
             self.robot.Act(i)
-            time.sleep(1/60)
+            time.sleep(1/100000)
+
+    def Get_Fitness(self):
+        self.robot.Get_Fitness()
 
     def __del__(self):
         p.disconnect()
